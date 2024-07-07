@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func askOptions() {
+func PresentOptions() {
 	fmt.Println(">>> What do you want to do?")
 	fmt.Println("------------------------")
 	fmt.Println("> 1: Check balance")

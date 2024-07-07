@@ -3,6 +3,8 @@ package main
 import (
 	f "bank/fileops"
 	"fmt"
+
+	"github.com/pallinder/go-randomdata"
 )
 
 const accountBalanceFile = "balance.txt"
@@ -10,18 +12,15 @@ const accountBalanceFile = "balance.txt"
 func main() {
 	var balance, err = f.GetFloatFromFile(accountBalanceFile)
 	if err != nil {
-		fmt.Println("--------------------------------->")
-		fmt.Println("Error: ", err)
-		fmt.Println("<---------------------------------")
-		panic("Please check the balance store")
+		printInvalidChoice(err)
 	}
-	fmt.Println("!!! Welcome to Go Bank !!!")
+	fmt.Printf("Hello %s, welcome back to Go Bank !!!\n", randomdata.FullName(1))
+	fmt.Println("Call us at", randomdata.PhoneNumber())
 
 	var choice int
 
 	for choice != 4 {
-		askOptions()
-
+		PresentOptions()
 		fmt.Print("~ Your choice: ")
 		fmt.Scan(&choice)
 
@@ -62,4 +61,11 @@ func main() {
 			continue
 		}
 	}
+}
+
+func printInvalidChoice(err error) {
+	fmt.Println("--------------------------------->")
+	fmt.Println("Error: ", err)
+	fmt.Println("<---------------------------------")
+	panic("Please check the balance store")
 }
