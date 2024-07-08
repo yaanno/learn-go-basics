@@ -4,29 +4,72 @@ import (
 	"bufio"
 	"fmt"
 	"notes-app/note"
+	"notes-app/todo"
 	"os"
 	"strings"
 )
+
+type Saver interface {
+	Save() error
+}
+
+type Displayer interface {
+	Display()
+}
+
+type Outputtable interface {
+	Saver
+	Displayer
+}
+
+func main() {
+	title, content := getNoteData()
+	todoText := getTodoData()
+
+	todo, err := todo.New(todoText)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	err = outputData(&todo)
+	if err != nil {
+		return
+	}
+
+	note, err := note.New(title, content)
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = outputData(&note)
+	if err != nil {
+		return
+	}
+}
+
+func saveData(data Saver) error {
+	err := data.Save()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	fmt.Println("Save succeeded")
+	return nil
+}
+
+func outputData(data Outputtable) error {
+	data.Display()
+	return saveData(data)
+}
+
+func getTodoData() string {
+	text := getUserInput("Todo: ")
+	return text
+}
 
 func getNoteData() (string, string) {
 	title := getUserInput("Note title: ")
 	content := getUserInput("Note content: ")
 	return title, content
-}
-
-func main() {
-	title, content := getNoteData()
-	note, err := note.New(title, content)
-	if err != nil {
-		fmt.Println(err)
-	}
-	note.DisplayNote()
-	err = note.Save()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println("Note saved")
 }
 
 func getUserInput(prompt string) string {

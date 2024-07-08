@@ -26,7 +26,7 @@ func New(Title, Content string) (Note, error) {
 	}, nil
 }
 
-func (note *Note) DisplayNote() {
+func (note *Note) Display() {
 	fmt.Printf("Note Title:\n %v\n", note.Title)
 	fmt.Printf("Note Content:\n %v\n", note.Content)
 	fmt.Println(note.CreatedAt.Local())
