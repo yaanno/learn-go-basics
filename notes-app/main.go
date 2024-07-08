@@ -46,6 +46,26 @@ func main() {
 	}
 }
 
+func printSomething(value any) {
+	intVal, ok := value.(int)
+	if ok {
+		fmt.Println(intVal)
+		return
+	}
+	floatVal, ok := value.(float64)
+	if ok {
+		fmt.Println(floatVal)
+		return
+	}
+
+	switch value.(type) {
+	case int:
+		fmt.Println(value)
+	default:
+		break
+	}
+}
+
 func saveData(data Saver) error {
 	err := data.Save()
 	if err != nil {
