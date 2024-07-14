@@ -35,4 +35,8 @@ func main() {
 	product := Product{1, 34, "test"}
 	products[product.id] = product
 	fmt.Println(products.get(1))
+
+	for _, v := range products {
+		fmt.Println("item ", v)
+	}
 }
